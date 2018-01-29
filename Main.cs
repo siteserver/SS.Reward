@@ -61,13 +61,13 @@ namespace SS.Reward
                     {
                         new Menu
                         {
-                            Text = "文章打赏设置",
-                            Href = $"{nameof(PageSettings)}.aspx"
+                            Text = "文章打赏记录",
+                            Href = $"{nameof(PageRecords)}.aspx"
                         },
                         new Menu
                         {
-                            Text = "文章打赏记录",
-                            Href = $"{nameof(PageRecords)}.aspx"
+                            Text = "文章打赏设置",
+                            Href = $"{nameof(PageSettings)}.aspx"
                         }
                     }
                 })
