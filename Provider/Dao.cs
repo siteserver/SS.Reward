@@ -9,8 +9,8 @@ namespace SS.Reward.Provider
 
         public Dao()
         {
-            _connectionString = Main.ConnectionString;
-            _helper = Main.DataApi;
+            _connectionString = Main.Instance.ConnectionString;
+            _helper = Main.Instance.DataApi;
         }
 
         public int GetIntResult(string sqlString)

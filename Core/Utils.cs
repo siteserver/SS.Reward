@@ -295,7 +295,7 @@ namespace SS.Reward.Core
                 }
                 else
                 {
-                    xmlDocument.LoadXml(XmlDeclaration + XmlNamespaceStart + Main.ParseApi.HtmlToXml(element) + XmlNamespaceEnd);
+                    xmlDocument.LoadXml(XmlDeclaration + XmlNamespaceStart + Main.Instance.ParseApi.HtmlToXml(element) + XmlNamespaceEnd);
                 }
             }
             catch

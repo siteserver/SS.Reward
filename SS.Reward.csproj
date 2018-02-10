@@ -30,11 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SiteServer.Plugin, Version=1.2.21.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SiteServer.Plugin.1.2.21-beta\lib\net45\SiteServer.Plugin.dll</HintPath>
+    <Reference Include="SiteServer.Plugin, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SiteServer.Plugin.1.3.0\lib\net45\SiteServer.Plugin.dll</HintPath>
     </Reference>
-    <Reference Include="SS.Payment, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SS.Payment.1.1.5-beta\lib\net461\SS.Payment.dll</HintPath>
+    <Reference Include="SS.Payment, Version=1.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SS.Payment.1.1.15\lib\net461\SS.Payment.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,7 +73,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.png" />
-    <Content Include="pageIntegrationPay.aspx" />
+    <Content Include="pageIntegrationPay.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="pageIntegrationPayAlipayMobi.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="pageIntegrationPayAlipayPc.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="pageIntegrationPayJdpay.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="pageIntegrationPayWeixin.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="Third\Alipay\openapi\readme.txt" />
     <Content Include="Third\Alipay\openapi\version.txt" />
   </ItemGroup>

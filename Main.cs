@@ -10,24 +10,14 @@ using SS.Reward.Provider;
 
 namespace SS.Reward
 {
-    public class Main : IPlugin
+    public class Main : PluginBase
     {
-        public static IDataApi DataApi { get; private set; }
-        public static IConfigApi ConfigApi { get; private set; }
-        public static IParseApi ParseApi { get; private set; }
-        public static IFilesApi FilesApi { get; private set; }
-        public static IAdminApi AdminApi { get; private set; }
-        public static IContentApi ContentApi { get; private set; }
-
-        public static DatabaseType DatabaseType { get; private set; }
-        public static string ConnectionString { get; private set; }
-
         public static Dao Dao { get; private set; }
         public static RecordDao RecordDao { get; private set; }
 
         private static readonly Dictionary<int, ConfigInfo> ConfigInfoDict = new Dictionary<int, ConfigInfo>();
 
-        public static ConfigInfo GetConfigInfo(int siteId)
+        public ConfigInfo GetConfigInfo(int siteId)
         {
             if (!ConfigInfoDict.ContainsKey(siteId))
             {
@@ -36,17 +26,11 @@ namespace SS.Reward
             return ConfigInfoDict[siteId];
         }
 
-        public void Startup(IContext context, IService service)
-        {
-            DataApi = context.DataApi;
-            ConfigApi = context.ConfigApi;
-            ParseApi = context.ParseApi;
-            FilesApi = context.FilesApi;
-            AdminApi = context.AdminApi;
-            ContentApi = context.ContentApi;
+        internal static Main Instance { get; private set; }
 
-            DatabaseType = context.Environment.DatabaseType;
-            ConnectionString = context.Environment.ConnectionString;
+        public override void Startup(IService service)
+        {
+            Instance = this;
 
             Dao = new Dao();
             RecordDao = new RecordDao();
@@ -71,42 +55,53 @@ namespace SS.Reward
                         }
                     }
                 })
-                .AddStlElementParser(StlReward.ElementName, StlReward.Parse)
-                .AddJsonPost((request, name) =>
-                {
-                    if (Utils.EqualsIgnoreCase(name, nameof(StlReward.ApiPay)))
-                    {
-                        return StlReward.ApiPay(request);
-                    }
-                    if (Utils.EqualsIgnoreCase(name, nameof(StlReward.ApiPaySuccess)))
-                    {
-                        return StlReward.ApiPaySuccess(request);
-                    }
-                    if (Utils.EqualsIgnoreCase(name, nameof(StlReward.ApiWeixinInterval)))
-                    {
-                        return StlReward.ApiWeixinInterval(request);
-                    }
+                .AddStlElementParser(StlReward.ElementName, StlReward.Parse);
 
-                    return null;
-                })
-                .AddHttpGet((request, name) =>
-                {
-                    if (Utils.EqualsIgnoreCase(name, nameof(StlReward.ApiQrCode)))
-                    {
-                        return StlReward.ApiQrCode(request);
-                    }
+            service.ApiGet += Service_ApiGet;
+            service.ApiPost += Service_ApiPost;
+        }
 
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                })
-                .AddHttpPost((request, name, id) =>
-                {
-                    if (Utils.EqualsIgnoreCase(name, nameof(StlReward.ApiWeixinNotify)))
-                    {
-                        return StlReward.ApiWeixinNotify(request, id);
-                    }
+        private object Service_ApiGet(object sender, ApiEventArgs args)
+        {
+            if (Utils.EqualsIgnoreCase(args.Action, nameof(StlReward.ApiQrCode)))
+            {
+                return StlReward.ApiQrCode(args.Request);
+            }
 
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                });
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+        }
+
+        private object Service_ApiPost(object sender, ApiEventArgs args)
+        {
+            var request = args.Request;
+            var action = args.Action;
+            var id = args.Id;
+
+            if (!string.IsNullOrEmpty(action) && !string.IsNullOrEmpty(id))
+            {
+                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiWeixinNotify)))
+                {
+                    return StlReward.ApiWeixinNotify(request, id);
+                }
+            }
+            else if (!string.IsNullOrEmpty(action))
+            {
+                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiPay)))
+                {
+                    return StlReward.ApiPay(request);
+                }
+                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiPaySuccess)))
+                {
+                    return StlReward.ApiPaySuccess(request);
+                }
+                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiWeixinInterval)))
+                {
+                    return StlReward.ApiWeixinInterval(request);
+                }
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
 }

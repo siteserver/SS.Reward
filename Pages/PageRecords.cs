@@ -21,14 +21,14 @@ namespace SS.Reward.Pages
 
         public static string GetRedirectUrl(int siteId)
         {
-            return Main.FilesApi.GetPluginUrl($"{nameof(PageRecords)}.aspx?siteId={siteId}");
+            return Main.Instance.PluginApi.GetPluginUrl($"{nameof(PageRecords)}.aspx?siteId={siteId}");
         }
 
 		public void Page_Load(object sender, EventArgs e)
         {
             _siteId = Convert.ToInt32(Request.QueryString["siteId"]);
 
-            if (!Main.AdminApi.IsSiteAuthorized(_siteId))
+            if (!Main.Instance.AdminApi.IsSiteAuthorized(_siteId))
             {
                 Response.Write("<h1>未授权访问</h1>");
                 Response.End();
@@ -87,7 +87,7 @@ if (ids.length > 0){{
             var ltlStatus = (Literal)e.Item.FindControl("ltlStatus");
             var ltlAddDate = (Literal)e.Item.FindControl("ltlAddDate");
 
-            ltlTitle.Text = $@"<a href=""{Main.FilesApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{Main.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
+            ltlTitle.Text = $@"<a href=""{Main.Instance.FilesApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{Main.Instance.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
             ltlMessage.Text = message;
             ltlAmount.Text = amount.ToString("N2");
             ltlStatus.Text = isPaied ? "已支付" : "未支付";

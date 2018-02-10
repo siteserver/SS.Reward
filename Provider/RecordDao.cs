@@ -65,8 +65,8 @@ namespace SS.Reward.Provider
 
         public RecordDao()
         {
-            _connectionString = Main.ConnectionString;
-            _helper = Main.DataApi;
+            _connectionString = Main.Instance.ConnectionString;
+            _helper = Main.Instance.DataApi;
         }
 
         public int Insert(RecordInfo contentInfo)

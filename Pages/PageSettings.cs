@@ -22,14 +22,14 @@ namespace SS.Reward.Pages
         {
             _siteId = Convert.ToInt32(Request.QueryString["siteId"]);
 
-            if (!Main.AdminApi.IsSiteAuthorized(_siteId))
+            if (!Main.Instance.AdminApi.IsSiteAuthorized(_siteId))
             {
                 HttpContext.Current.Response.Write("<h1>未授权访问</h1>");
                 HttpContext.Current.Response.End();
                 return;
             }
 
-            _configInfo = Main.GetConfigInfo(_siteId);
+            _configInfo = Main.Instance.GetConfigInfo(_siteId);
 
             if (IsPostBack) return;
 
@@ -52,7 +52,7 @@ namespace SS.Reward.Pages
             _configInfo.DefaultAmount = Convert.ToDecimal(TbDefaultAmount.Text);
             _configInfo.Description = TbDescription.Text;
 
-            Main.ConfigApi.SetConfig(_siteId, _configInfo);
+            Main.Instance.ConfigApi.SetConfig(_siteId, _configInfo);
             LtlMessage.Text = Utils.GetMessageHtml("文章打赏设置修改成功！", true);
         }
     }
