@@ -69,9 +69,37 @@
     <Compile Include="Provider\RecordDao.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\plugin-utils\fonts\fontawesome-webfont.eot" />
+    <None Include="assets\plugin-utils\fonts\fontawesome-webfont.ttf" />
+    <None Include="assets\plugin-utils\fonts\fontawesome-webfont.woff" />
+    <None Include="assets\plugin-utils\fonts\fontawesome-webfont.woff2" />
+    <None Include="assets\plugin-utils\fonts\FontAwesome.otf" />
+    <None Include="assets\plugin-utils\fonts\ionicons.eot" />
+    <None Include="assets\plugin-utils\fonts\ionicons.ttf" />
+    <None Include="assets\plugin-utils\fonts\ionicons.woff" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\images\channel_alipay.gif" />
+    <Content Include="assets\images\channel_jdpay.gif" />
+    <Content Include="assets\images\channel_weixin.gif" />
+    <Content Include="assets\images\close.png" />
+    <Content Include="assets\images\pay_cut.png" />
+    <Content Include="assets\js\device.min.js" />
+    <Content Include="assets\js\jquery.min.js" />
+    <Content Include="assets\js\sweetalert.min.js" />
+    <Content Include="assets\js\vue.min.js" />
+    <Content Include="assets\plugin-utils\css\bootstrap.min.css" />
+    <Content Include="assets\plugin-utils\css\font-awesome.min.css" />
+    <Content Include="assets\plugin-utils\css\ionicons.min.css" />
+    <Content Include="assets\plugin-utils\css\plugin-utils.css" />
+    <Content Include="assets\plugin-utils\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\plugin-utils\fonts\ionicons.svg" />
+    <Content Include="assets\plugin-utils\js\bootstrap.min.js" />
+    <Content Include="assets\plugin-utils\js\jquery.min.js" />
+    <Content Include="assets\plugin-utils\js\plugin-utils.js" />
     <Content Include="logo.png" />
     <Content Include="pageIntegrationPay.aspx">
       <SubType>ASPXCodeBehind</SubType>
@@ -88,6 +116,8 @@
     <Content Include="pageIntegrationPayWeixin.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
+    <Content Include="pageRecords.aspx" />
+    <Content Include="PageSettings.aspx" />
     <Content Include="Third\Alipay\openapi\readme.txt" />
     <Content Include="Third\Alipay\openapi\version.txt" />
   </ItemGroup>
