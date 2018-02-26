@@ -153,9 +153,9 @@ namespace SS.Reward.Parse
 
             var weixinName = string.Empty;
 
-            foreach (var attriName in context.StlElementAttributes.Keys)
+            foreach (var attriName in context.StlAttributes.Keys)
             {
-                var value = context.StlElementAttributes[attriName];
+                var value = context.StlAttributes[attriName];
                 if (Utils.EqualsIgnoreCase(attriName, AttributeWeixinName))
                 {
                     weixinName = Main.Instance.ParseApi.ParseAttributeValue(value, context);
@@ -163,9 +163,9 @@ namespace SS.Reward.Parse
             }
 
             string template;
-            if (!string.IsNullOrEmpty(context.StlElementInnerXml))
+            if (!string.IsNullOrEmpty(context.StlInnerXml))
             {
-                template = Main.Instance.ParseApi.ParseInnerXml(context.StlElementInnerXml, context);
+                template = Main.Instance.ParseApi.ParseInnerXml(context.StlInnerXml, context);
             }
             else
             {
