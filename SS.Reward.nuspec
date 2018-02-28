@@ -3,7 +3,7 @@
   <metadata>
     <id>SS.Reward</id>
     <version>$version$</version>
-    <title>SiteServer CMS 文章打赏插件</title>
+    <title>文章打赏插件</title>
     <authors>SiteServer CMS</authors>
     <owners>siteserver</owners>
     <licenseUrl>https://github.com/siteserver/SS.Reward/blob/master/LICENSE</licenseUrl>
