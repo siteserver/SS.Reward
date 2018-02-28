@@ -15,4 +15,7 @@
     <copyright>Copyright ©2018 SiteServer CMS</copyright>
     <tags>SiteServer CMS Reward Plugin</tags>
   </metadata>
+  <files>
+    <file src="assets\plugin-utils\fonts\**" target="Content\assets\plugin-utils\fonts"/>
+  </files>
 </package>
