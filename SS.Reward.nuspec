@@ -8,7 +8,7 @@
     <owners>siteserver</owners>
     <licenseUrl>https://github.com/siteserver/SS.Reward/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/siteserver/SS.Reward</projectUrl>
-    <iconUrl>https://github.com/siteserver/SS.Reward/raw/master/logo.png</iconUrl>
+    <iconUrl>http://plugins.siteserver.cn/ss.reward/logo.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>Bug fixes and performance improvements</releaseNotes>
     <description>SiteServer CMS 文章打赏插件</description>
