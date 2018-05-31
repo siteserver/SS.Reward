@@ -11,13 +11,11 @@ using SiteServer.Plugin;
 using SS.Payment.Core;
 using SS.Reward.Model;
 using ThoughtWorks.QRCode.Codec;
-using Utils = SS.Reward.Core.Utils;
 
 namespace SS.Reward.Parse
 {
-    public class StlReward
+    public static class StlReward
     {
-        private StlReward() { }
         public const string ElementName = "stl:reward";
 
         public const string AttributeWeixinName = "weixinName";
@@ -163,9 +161,9 @@ namespace SS.Reward.Parse
             }
 
             string template;
-            if (!string.IsNullOrEmpty(context.StlInnerXml))
+            if (!string.IsNullOrEmpty(context.StlInnerHtml))
             {
-                template = Main.Instance.ParseApi.ParseInnerXml(context.StlInnerXml, context);
+                template = Main.Instance.ParseApi.Parse(context.StlInnerHtml, context);
             }
             else
             {
