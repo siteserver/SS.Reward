@@ -63,7 +63,7 @@ namespace SS.Reward
 
         private object Service_ApiGet(object sender, ApiEventArgs args)
         {
-            if (Utils.EqualsIgnoreCase(args.Action, nameof(StlReward.ApiQrCode)))
+            if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiQrCode)))
             {
                 return StlReward.ApiQrCode(args.Request);
             }
@@ -75,27 +75,25 @@ namespace SS.Reward
         private object Service_ApiPost(object sender, ApiEventArgs args)
         {
             var request = args.Request;
-            var action = args.Action;
-            var id = args.Id;
 
-            if (!string.IsNullOrEmpty(action) && !string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(args.RouteResource) && !string.IsNullOrEmpty(args.RouteId))
             {
-                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiWeixinNotify)))
+                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinNotify)))
                 {
-                    return StlReward.ApiWeixinNotify(request, id);
+                    return StlReward.ApiWeixinNotify(request, args.RouteId);
                 }
             }
-            else if (!string.IsNullOrEmpty(action))
+            else if (!string.IsNullOrEmpty(args.RouteResource))
             {
-                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiPay)))
+                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPay)))
                 {
                     return StlReward.ApiPay(request);
                 }
-                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiPaySuccess)))
+                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPaySuccess)))
                 {
                     return StlReward.ApiPaySuccess(request);
                 }
-                if (Utils.EqualsIgnoreCase(action, nameof(StlReward.ApiWeixinInterval)))
+                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinInterval)))
                 {
                     return StlReward.ApiWeixinInterval(request);
                 }
