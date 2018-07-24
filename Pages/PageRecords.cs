@@ -87,7 +87,7 @@ if (ids.length > 0){{
             var ltlStatus = (Literal)e.Item.FindControl("ltlStatus");
             var ltlAddDate = (Literal)e.Item.FindControl("ltlAddDate");
 
-            ltlTitle.Text = $@"<a href=""{Main.Instance.FilesApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{Main.Instance.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
+            ltlTitle.Text = $@"<a href=""{Main.Instance.ContentApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{Main.Instance.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
             ltlMessage.Text = message;
             ltlAmount.Text = amount.ToString("N2");
             ltlStatus.Text = isPaied ? "已支付" : "未支付";

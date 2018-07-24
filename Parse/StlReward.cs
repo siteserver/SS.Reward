@@ -110,7 +110,7 @@ namespace SS.Reward.Parse
 
             bool isPaied;
             string responseXml;
-            paymentApi.NotifyByWeixin(request.HttpRequest, out isPaied, out responseXml);
+            paymentApi.NotifyByWeixin(HttpContext.Current.Request, out isPaied, out responseXml);
             if (isPaied)
             {
                 Main.RecordDao.UpdateIsPaied(orderNo);
