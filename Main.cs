@@ -57,11 +57,11 @@ namespace SS.Reward
                 })
                 .AddStlElementParser(StlReward.ElementName, StlReward.Parse);
 
-            service.ApiGet += Service_ApiGet;
-            service.ApiPost += Service_ApiPost;
+            service.RestApiGet += Service_RestApiGet;
+            service.RestApiPost += Service_RestApiPost;
         }
 
-        private object Service_ApiGet(object sender, ApiEventArgs args)
+        private object Service_RestApiGet(object sender, RestApiEventArgs args)
         {
             if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiQrCode)))
             {
@@ -72,7 +72,7 @@ namespace SS.Reward
 
         }
 
-        private object Service_ApiPost(object sender, ApiEventArgs args)
+        private object Service_RestApiPost(object sender, RestApiEventArgs args)
         {
             var request = args.Request;
 
