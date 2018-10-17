@@ -56,10 +56,10 @@ namespace SS.Reward.Parse
             }
             if (channel == "weixin")
             {
-                var notifyUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiWeixinNotify)}/{orderNo}";
+                var notifyUrl = $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiWeixinNotify)}/{orderNo}";
                 var url = HttpUtility.UrlEncode(paymentApi.ChargeByWeixin("文章打赏", amount, orderNo, notifyUrl));
                 var qrCodeUrl =
-                    $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiQrCode)}?qrcode={url}";
+                    $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiQrCode)}?qrcode={url}";
                 return new
                 {
                     qrCodeUrl,
@@ -146,7 +146,7 @@ namespace SS.Reward.Parse
 
         public static string Parse(IParseContext context)
         {
-            var config = Main.Instance.GetConfigInfo(context.SiteId);
+            var config = Main.GetConfigInfo(context.SiteId);
             if (!config.IsEnabled || context.ChannelId == 0 || context.ContentId == 0) return string.Empty;
 
             var weixinName = string.Empty;
@@ -156,14 +156,14 @@ namespace SS.Reward.Parse
                 var value = context.StlAttributes[attriName];
                 if (Utils.EqualsIgnoreCase(attriName, AttributeWeixinName))
                 {
-                    weixinName = Main.Instance.ParseApi.ParseAttributeValue(value, context);
+                    weixinName = Context.ParseApi.ParseAttributeValue(value, context);
                 }
             }
 
             string template;
             if (!string.IsNullOrEmpty(context.StlInnerHtml))
             {
-                template = Main.Instance.ParseApi.Parse(context.StlInnerHtml, context);
+                template = Context.ParseApi.Parse(context.StlInnerHtml, context);
             }
             else
             {
@@ -219,14 +219,14 @@ namespace SS.Reward.Parse
 
             var elementId = "el-" + Guid.NewGuid();
             var vueId = "v" + Guid.NewGuid().ToString().Replace("-", string.Empty);
-            var styleUrl = Main.Instance.PluginApi.GetPluginUrl("assets/css/style.css");
-            var jqueryUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/jquery.min.js");
-            var vueUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/vue.min.js");
-            var deviceUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/device.min.js");
-            var apiPayUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiPay)}";
-            var apiPaySuccessUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiPaySuccess)}";
-            var successUrl = Main.Instance.ParseApi.GetCurrentUrl(context) + "?isRewardSuccess=" + true;
-            var apiWeixinIntervalUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiWeixinInterval)}";
+            var styleUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/css/style.css");
+            var jqueryUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/js/jquery.min.js");
+            var vueUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/js/vue.min.js");
+            var deviceUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/js/device.min.js");
+            var apiPayUrl = $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiPay)}";
+            var apiPaySuccessUrl = $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiPaySuccess)}";
+            var successUrl = Context.ParseApi.GetCurrentUrl(context) + "?isRewardSuccess=" + true;
+            var apiWeixinIntervalUrl = $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiWeixinInterval)}";
 
             var paymentApi = new PaymentApi(context.SiteId);
 

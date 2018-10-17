@@ -12,25 +12,25 @@ namespace SS.Reward
 {
     public class Main : PluginBase
     {
+        public static string PluginId { get; private set; }
+
         public static Dao Dao { get; private set; }
         public static RecordDao RecordDao { get; private set; }
 
         private static readonly Dictionary<int, ConfigInfo> ConfigInfoDict = new Dictionary<int, ConfigInfo>();
 
-        public ConfigInfo GetConfigInfo(int siteId)
+        public static ConfigInfo GetConfigInfo(int siteId)
         {
             if (!ConfigInfoDict.ContainsKey(siteId))
             {
-                ConfigInfoDict[siteId] = ConfigApi.GetConfig<ConfigInfo>(siteId) ?? new ConfigInfo();
+                ConfigInfoDict[siteId] = Context.ConfigApi.GetConfig<ConfigInfo>(PluginId, siteId) ?? new ConfigInfo();
             }
             return ConfigInfoDict[siteId];
         }
 
-        internal static Main Instance { get; private set; }
-
         public override void Startup(IService service)
         {
-            Instance = this;
+            PluginId = Id;
 
             Dao = new Dao();
             RecordDao = new RecordDao();

@@ -28,7 +28,7 @@ namespace SS.Reward.Pages
         {
             _siteId = Convert.ToInt32(Request.QueryString["siteId"]);
 
-            if (!Main.Instance.Request.AdminPermissions.HasSitePermissions(_siteId, Main.Instance.Id))
+            if (!SiteServer.Plugin.Context.Request.AdminPermissions.HasSitePermissions(_siteId, Main.PluginId))
             {
                 Response.Write("<h1>未授权访问</h1>");
                 Response.End();
@@ -87,7 +87,7 @@ if (ids.length > 0){{
             var ltlStatus = (Literal)e.Item.FindControl("ltlStatus");
             var ltlAddDate = (Literal)e.Item.FindControl("ltlAddDate");
 
-            ltlTitle.Text = $@"<a href=""{Main.Instance.ContentApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{Main.Instance.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
+            ltlTitle.Text = $@"<a href=""{SiteServer.Plugin.Context.ContentApi.GetContentUrl(_siteId, channelId, contentId)}"" target=""_blank"">{SiteServer.Plugin.Context.ContentApi.GetContentValue(_siteId, channelId, contentId, "Title")}</a>";
             ltlMessage.Text = message;
             ltlAmount.Text = amount.ToString("N2");
             ltlStatus.Text = isPaied ? "已支付" : "未支付";
