@@ -37,8 +37,8 @@
     <Reference Include="SiteServer.Plugin, Version=2.0.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\SiteServer.Plugin.2.0.17\lib\net45\SiteServer.Plugin.dll</HintPath>
     </Reference>
-    <Reference Include="SS.Payment, Version=1.1.45.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SS.Payment.1.1.45-beta\lib\net452\SS.Payment.dll</HintPath>
+    <Reference Include="SS.Payment, Version=1.1.46.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SS.Payment.1.1.46-beta\lib\net452\SS.Payment.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

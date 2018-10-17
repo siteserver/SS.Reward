@@ -2,25 +2,16 @@
 
 namespace SS.Reward.Provider
 {
-    public class Dao
+    public static class Dao
     {
-        private readonly string _connectionString;
-        private readonly IDatabaseApi _helper;
-
-        public Dao()
-        {
-            _connectionString = Context.ConnectionString;
-            _helper = Context.DatabaseApi;
-        }
-
-        public int GetIntResult(string sqlString)
+        public static int GetIntResult(string sqlString)
         {
             var count = 0;
 
-            using (var conn = _helper.GetConnection(_connectionString))
+            using (var conn = Context.DatabaseApi.GetConnection(Context.ConnectionString))
             {
                 conn.Open();
-                using (var rdr = _helper.ExecuteReader(conn, sqlString))
+                using (var rdr = Context.DatabaseApi.ExecuteReader(conn, sqlString))
                 {
                     if (rdr.Read() && !rdr.IsDBNull(0))
                     {

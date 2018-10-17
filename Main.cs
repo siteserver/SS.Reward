@@ -14,9 +14,6 @@ namespace SS.Reward
     {
         public static string PluginId { get; private set; }
 
-        public static Dao Dao { get; private set; }
-        public static RecordDao RecordDao { get; private set; }
-
         private static readonly Dictionary<int, ConfigInfo> ConfigInfoDict = new Dictionary<int, ConfigInfo>();
 
         public static ConfigInfo GetConfigInfo(int siteId)
@@ -31,9 +28,6 @@ namespace SS.Reward
         public override void Startup(IService service)
         {
             PluginId = Id;
-
-            Dao = new Dao();
-            RecordDao = new RecordDao();
 
             service
                 .AddDatabaseTable(RecordDao.TableName, RecordDao.Columns)

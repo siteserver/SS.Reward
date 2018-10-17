@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using SS.Reward.Controls;
 using SS.Reward.Core;
 using SS.Reward.Model;
+using SS.Reward.Provider;
 
 namespace SS.Reward.Pages
 {
@@ -40,13 +41,13 @@ namespace SS.Reward.Pages
             {
                 var array = Request.QueryString["idCollection"].Split(',');
                 var list = array.Select(s => Convert.ToInt32(s)).ToList();
-                Main.RecordDao.Delete(list);
+                RecordDao.Delete(list);
                 LtlMessage.Text = Utils.GetMessageHtml("删除成功！", true);
             }
 
             SpContents.ControlToPaginate = RptContents;
             SpContents.ItemsPerPage = 20;
-            SpContents.SelectCommand = Main.RecordDao.GetSelectString(_siteId);
+            SpContents.SelectCommand = RecordDao.GetSelectString(_siteId);
             SpContents.SortField = nameof(RecordInfo.Id);
             SpContents.SortMode = "DESC";
             RptContents.ItemDataBound += RptContents_ItemDataBound;

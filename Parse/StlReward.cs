@@ -10,6 +10,7 @@ using System.Web;
 using SiteServer.Plugin;
 using SS.Payment.Core;
 using SS.Reward.Model;
+using SS.Reward.Provider;
 using ThoughtWorks.QRCode.Codec;
 
 namespace SS.Reward.Parse
@@ -46,7 +47,7 @@ namespace SS.Reward.Parse
                 IsPaied = false,
                 AddDate = DateTime.Now
             };
-            Main.RecordDao.Insert(recordInfo);
+            RecordDao.Insert(recordInfo);
 
             if (channel == "alipay")
             {
@@ -113,7 +114,7 @@ namespace SS.Reward.Parse
             paymentApi.NotifyByWeixin(HttpContext.Current.Request, out isPaied, out responseXml);
             if (isPaied)
             {
-                Main.RecordDao.UpdateIsPaied(orderNo);
+                RecordDao.UpdateIsPaied(orderNo);
             }
 
             response.Content = new StringContent(responseXml);
@@ -127,7 +128,7 @@ namespace SS.Reward.Parse
         {
             var orderNo = request.GetPostString("orderNo");
             
-            Main.RecordDao.UpdateIsPaied(orderNo);
+            RecordDao.UpdateIsPaied(orderNo);
 
             return null;
         }
@@ -136,7 +137,7 @@ namespace SS.Reward.Parse
         {
             var orderNo = request.GetPostString("orderNo");
 
-            var isPaied = Main.RecordDao.IsPaied(orderNo);
+            var isPaied = RecordDao.IsPaied(orderNo);
 
             return new
             {

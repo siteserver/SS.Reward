@@ -5,7 +5,7 @@ using SS.Reward.Model;
 
 namespace SS.Reward.Provider
 {
-    public class RecordDao
+    public static class RecordDao
     {
         public const string TableName = "ss_reward_record";
 
@@ -60,16 +60,7 @@ namespace SS.Reward.Provider
             }
         };
 
-        private readonly string _connectionString;
-        private readonly IDatabaseApi _helper;
-
-        public RecordDao()
-        {
-            _connectionString = Context.ConnectionString;
-            _helper = Context.DatabaseApi;
-        }
-
-        public int Insert(RecordInfo contentInfo)
+        public static int Insert(RecordInfo contentInfo)
         {
             string sqlString = $@"INSERT INTO {TableName}
 (
@@ -94,20 +85,20 @@ namespace SS.Reward.Provider
 
             var parameters = new[]
             {
-                _helper.GetParameter(nameof(contentInfo.PublishmentSystemId), contentInfo.PublishmentSystemId),
-                _helper.GetParameter(nameof(contentInfo.ChannelId), contentInfo.ChannelId),
-                _helper.GetParameter(nameof(contentInfo.ContentId), contentInfo.ContentId),
-                _helper.GetParameter(nameof(contentInfo.Message), contentInfo.Message),
-                _helper.GetParameter(nameof(contentInfo.Amount), contentInfo.Amount),
-                _helper.GetParameter(nameof(contentInfo.OrderNo), contentInfo.OrderNo),
-                _helper.GetParameter(nameof(contentInfo.IsPaied), contentInfo.IsPaied),
-                _helper.GetParameter(nameof(contentInfo.AddDate), contentInfo.AddDate)
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.PublishmentSystemId), contentInfo.PublishmentSystemId),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.ChannelId), contentInfo.ChannelId),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.ContentId), contentInfo.ContentId),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.Message), contentInfo.Message),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.Amount), contentInfo.Amount),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.OrderNo), contentInfo.OrderNo),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.IsPaied), contentInfo.IsPaied),
+                Context.DatabaseApi.GetParameter(nameof(contentInfo.AddDate), contentInfo.AddDate)
             };
 
-            return _helper.ExecuteNonQueryAndReturnId(TableName, nameof(RecordInfo.Id), _connectionString, sqlString, parameters);
+            return Context.DatabaseApi.ExecuteNonQueryAndReturnId(TableName, nameof(RecordInfo.Id), Context.ConnectionString, sqlString, parameters);
         }
 
-        public void UpdateIsPaied(string orderNo)
+        public static void UpdateIsPaied(string orderNo)
         {
             string sqlString = $@"UPDATE {TableName} SET
                 {nameof(RecordInfo.IsPaied)} = @{nameof(RecordInfo.IsPaied)} WHERE
@@ -115,14 +106,14 @@ namespace SS.Reward.Provider
 
             var parameters = new List<IDataParameter>
             {
-                _helper.GetParameter(nameof(RecordInfo.IsPaied), true),
-                _helper.GetParameter(nameof(RecordInfo.OrderNo), orderNo)
+                Context.DatabaseApi.GetParameter(nameof(RecordInfo.IsPaied), true),
+                Context.DatabaseApi.GetParameter(nameof(RecordInfo.OrderNo), orderNo)
             };
 
-            _helper.ExecuteNonQuery(_connectionString, sqlString, parameters.ToArray());
+            Context.DatabaseApi.ExecuteNonQuery(Context.ConnectionString, sqlString, parameters.ToArray());
         }
 
-        public bool IsPaied(string orderNo)
+        public static bool IsPaied(string orderNo)
         {
             var isPaied = false;
 
@@ -130,10 +121,10 @@ namespace SS.Reward.Provider
 
             var parameters = new List<IDataParameter>
             {
-                _helper.GetParameter(nameof(RecordInfo.OrderNo), orderNo)
+                Context.DatabaseApi.GetParameter(nameof(RecordInfo.OrderNo), orderNo)
             };
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString, parameters.ToArray()))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString, parameters.ToArray()))
             {
                 if (rdr.Read() && !rdr.IsDBNull(0))
                 {
@@ -145,7 +136,7 @@ namespace SS.Reward.Provider
             return isPaied;
         }
 
-        public string GetSelectString(int siteId)
+        public static string GetSelectString(int siteId)
         {
             return $@"SELECT {nameof(RecordInfo.Id)}, 
             {nameof(RecordInfo.PublishmentSystemId)}, 
@@ -159,11 +150,11 @@ namespace SS.Reward.Provider
             FROM {TableName} WHERE {nameof(RecordInfo.PublishmentSystemId)} = {siteId} ORDER BY Id DESC";
         }
 
-        public void Delete(List<int> deleteIdList)
+        public static void Delete(List<int> deleteIdList)
         {
             string sqlString =
                 $"DELETE FROM {TableName} WHERE Id IN ({string.Join(",", deleteIdList)})";
-            _helper.ExecuteNonQuery(_connectionString, sqlString);
+            Context.DatabaseApi.ExecuteNonQuery(Context.ConnectionString, sqlString);
         }
     }
 }
