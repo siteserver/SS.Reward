@@ -20,9 +20,10 @@ namespace SS.Reward.Pages
 
         public void Page_Load(object sender, EventArgs e)
         {
-            _siteId = Convert.ToInt32(Request.QueryString["siteId"]);
+            var request = SiteServer.Plugin.Context.GetCurrentRequest();
+            _siteId = request.GetQueryInt("siteId");
 
-            if (!SiteServer.Plugin.Context.Request.AdminPermissions.HasSitePermissions(_siteId, Main.PluginId))
+            if (!request.AdminPermissions.HasSitePermissions(_siteId, Main.PluginId))
             {
                 HttpContext.Current.Response.Write("<h1>未授权访问</h1>");
                 HttpContext.Current.Response.End();
