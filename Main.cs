@@ -1,36 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using SiteServer.Plugin;
 using SS.Reward.Core;
-using SS.Reward.Model;
-using SS.Reward.Pages;
-using SS.Reward.Parse;
-using SS.Reward.Provider;
 
 namespace SS.Reward
 {
     public class Main : PluginBase
     {
-        public static string PluginId { get; private set; }
+        public const string PluginId = "SS.Reward";
 
-        private static readonly Dictionary<int, ConfigInfo> ConfigInfoDict = new Dictionary<int, ConfigInfo>();
-
-        public static ConfigInfo GetConfigInfo(int siteId)
-        {
-            if (!ConfigInfoDict.ContainsKey(siteId))
-            {
-                ConfigInfoDict[siteId] = Context.ConfigApi.GetConfig<ConfigInfo>(PluginId, siteId) ?? new ConfigInfo();
-            }
-            return ConfigInfoDict[siteId];
-        }
+        public static RecordRepository RecordRepository;
 
         public override void Startup(IService service)
         {
-            PluginId = Id;
+            RecordRepository = new RecordRepository();
 
             service
-                .AddDatabaseTable(RecordDao.TableName, RecordDao.Columns)
+                .AddDatabaseTable(RecordRepository.TableName, RecordRepository.TableColumns)
                 .AddSiteMenu(siteId => new Menu
                 {
                     Text = "文章打赏",
@@ -40,60 +25,60 @@ namespace SS.Reward
                         new Menu
                         {
                             Text = "文章打赏记录",
-                            Href = $"{nameof(PageRecords)}.aspx"
+                            Href = "pages/records.html"
                         },
                         new Menu
                         {
                             Text = "文章打赏设置",
-                            Href = $"{nameof(PageSettings)}.aspx"
+                            Href = "pages/settings.html"
                         }
                     }
                 })
                 .AddStlElementParser(StlReward.ElementName, StlReward.Parse);
 
-            service.RestApiGet += Service_RestApiGet;
-            service.RestApiPost += Service_RestApiPost;
+            //service.RestApiGet += Service_RestApiGet;
+            //service.RestApiPost += Service_RestApiPost;
         }
 
-        private object Service_RestApiGet(object sender, RestApiEventArgs args)
-        {
-            if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiQrCode)))
-            {
-                return StlReward.ApiQrCode(args.Request);
-            }
+        //private object Service_RestApiGet(object sender, RestApiEventArgs args)
+        //{
+        //    if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiQrCode)))
+        //    {
+        //        return StlReward.ApiQrCode(args.Request);
+        //    }
 
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //    return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-        }
+        //}
 
-        private object Service_RestApiPost(object sender, RestApiEventArgs args)
-        {
-            var request = args.Request;
+        //private object Service_RestApiPost(object sender, RestApiEventArgs args)
+        //{
+        //    var request = args.Request;
 
-            if (!string.IsNullOrEmpty(args.RouteResource) && !string.IsNullOrEmpty(args.RouteId))
-            {
-                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinNotify)))
-                {
-                    return StlReward.ApiWeixinNotify(request, args.RouteId);
-                }
-            }
-            else if (!string.IsNullOrEmpty(args.RouteResource))
-            {
-                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPay)))
-                {
-                    return StlReward.ApiPay(request);
-                }
-                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPaySuccess)))
-                {
-                    return StlReward.ApiPaySuccess(request);
-                }
-                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinInterval)))
-                {
-                    return StlReward.ApiWeixinInterval(request);
-                }
-            }
+        //    if (!string.IsNullOrEmpty(args.RouteResource) && !string.IsNullOrEmpty(args.RouteId))
+        //    {
+        //        if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinNotify)))
+        //        {
+        //            return StlReward.ApiWeixinNotify(request, args.RouteId);
+        //        }
+        //    }
+        //    else if (!string.IsNullOrEmpty(args.RouteResource))
+        //    {
+        //        if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPay)))
+        //        {
+        //            return StlReward.ApiPay(request);
+        //        }
+        //        if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiPaySuccess)))
+        //        {
+        //            return StlReward.ApiPaySuccess(request);
+        //        }
+        //        if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlReward.ApiWeixinInterval)))
+        //        {
+        //            return StlReward.ApiWeixinInterval(request);
+        //        }
+        //    }
 
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
+        //    return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //}
     }
 }
