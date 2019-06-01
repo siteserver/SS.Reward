@@ -23,7 +23,7 @@ namespace SS.Reward.Controllers.Pages
 
             return Ok(new
             {
-                Value = Context.ConfigApi.GetConfig<ConfigInfo>(Main.PluginId, siteId)
+                Value = Main.GetConfigInfo(siteId)
             });
         }
 
