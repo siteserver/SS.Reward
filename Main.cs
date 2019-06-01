@@ -10,6 +10,17 @@ namespace SS.Reward
 
         public static RecordRepository RecordRepository;
 
+        public static ConfigInfo GetConfigInfo(int siteId)
+        {
+            var globalConfigInfo = Context.ConfigApi.GetConfig<ConfigInfo>(PluginId, 0);
+            if (globalConfigInfo == null)
+            {
+                globalConfigInfo = new ConfigInfo();
+                Context.ConfigApi.SetConfig(PluginId, 0, globalConfigInfo);
+            }
+
+            return Context.ConfigApi.GetConfig<ConfigInfo>(PluginId, siteId) ?? globalConfigInfo;
+        }
         public override void Startup(IService service)
         {
             RecordRepository = new RecordRepository();
